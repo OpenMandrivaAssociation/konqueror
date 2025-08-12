@@ -6,7 +6,7 @@
 Summary:	KDE file and web browser
 Name:		konqueror
 Version:	25.04.3
-Release:	%{?git:0.%{git}.}1
+Release:	%{?git:0.%{git}.}2
 License:	GPLv2+
 Group:		Graphical desktop/KDE
 Url:		https://www.kde.org
@@ -205,7 +205,7 @@ This module contains plugins that interact with Konqueror.
 %package libkonq
 Summary:	KDE Frameworks 6 Konq library support files
 Group:		Graphical desktop/KDE
-%rename		plasma6-libkonq
+%rename		plasma6-konqueror-libkonq
 
 %description libkonq
 KDE Frameworks 6 Konq library support files.
@@ -218,7 +218,7 @@ KDE Frameworks 6 Konq library support files.
 %package webenginepart
 Summary:	Plasma 6 embeddable HTML component
 Group:		Graphical desktop/KDE
-%rename plasma6-webenginepart
+%rename plasma6-konqueror-webenginepart
 
 %description webenginepart
 Plasma 6 embeddable HTML component.
