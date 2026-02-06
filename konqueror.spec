@@ -5,7 +5,7 @@
 
 Summary:	KDE file and web browser
 Name:		konqueror
-Version:	25.12.1
+Version:	25.12.2
 Release:	%{?git:0.%{git}.}1
 License:	GPLv2+
 Group:		Graphical desktop/KDE
@@ -15,6 +15,7 @@ Source0:	https://invent.kde.org/network/konqueror/-/archive/%{gitbranch}/konquer
 %else
 Source0:	https://download.kde.org/%{stable}/release-service/%{version}/src/konqueror-%{version}.tar.xz
 %endif
+BuildSystem:	cmake
 BuildRequires:	cmake(ECM)
 BuildRequires:	cmake(KF6KCMUtils)
 BuildRequires:	cmake(PlasmaActivities)
@@ -59,7 +60,7 @@ Requires:	%{name}-webenginepart
 %description
 KDE file and web browser.
 
-%files -f konqueror.lang
+%files -f %{name}.lang
 %config %{_sysconfdir}/xdg/konqautofiltersrc
 %{_datadir}/qlogging-categories6/konqueror.categories
 %{_datadir}/applications/kfmclient.desktop
@@ -75,8 +76,6 @@ KDE file and web browser.
 %{_datadir}/kcontrol/*
 %{_datadir}/konqueror/about/*
 %{_datadir}/konqueror/pics/indicator_*.png
-%{_docdir}/HTML/*/konqueror/
-%{_docdir}/HTML/*/kcontrol6/
 %{_datadir}/icons/*/*/*/konqueror.*
 %{_datadir}/metainfo/org.kde.konqueror.appdata.xml
 %{_datadir}/dbus-1/interfaces/org.kde.?onqueror.*.xml
@@ -164,25 +163,6 @@ This module contains plugins that interact with Konqueror.
 %{_libdir}/qt6/plugins/konqueror/sidebar
 %{_datadir}/applications/kcm_bookmarks.desktop
 %{_datadir}/kio_bookmarks
-%lang(ca) %{_docdir}/HTML/ca/kcontrol/*
-%lang(de) %{_docdir}/HTML/de/kcontrol/*
-%lang(es) %{_docdir}/HTML/es/kcontrol/*
-%lang(et) %{_docdir}/HTML/et/kcontrol/*
-%lang(fr) %{_docdir}/HTML/fr/kcontrol/*
-%lang(it) %{_docdir}/HTML/it/kcontrol/*
-%lang(ko) %{_docdir}/HTML/ko/kcontrol/*
-%lang(nb) %{_docdir}/HTML/nb/kcontrol/*
-%lang(nl) %{_docdir}/HTML/nl/kcontrol/*
-%lang(pt) %{_docdir}/HTML/pt/kcontrol/*
-%lang(pt_BR) %{_docdir}/HTML/pt_BR/kcontrol/*
-%lang(ru) %{_docdir}/HTML/ru/kcontrol/*
-%lang(sl) %{_docdir}/HTML/sl/kcontrol/*
-%lang(sr) %{_docdir}/HTML/sr/kcontrol/*
-%lang(sr@latin) %{_docdir}/HTML/sr@latin/kcontrol/*
-%lang(sv) %{_docdir}/HTML/sv/kcontrol/*
-%lang(tr) %{_docdir}/HTML/tr/kcontrol/*
-%lang(uk) %{_docdir}/HTML/uk/kcontrol/*
-%lang(zh_CN) %{_docdir}/HTML/zh_CN/kcontrol/*
 
 #----------------------------------------------------------------------------
 
@@ -264,44 +244,13 @@ based on %{name}.
 %{_libdir}/libkonqsidebarplugin.so
 %{_includedir}/KF6/konqsidebarplugin.h
 
-#----------------------------------------------------------------------
+%install -a
+rm -f plugins.lang konqueror.lang
+for i in akregator_konqplugin autorefresh babelfish dirfilterplugin fsview imgalleryplugin kcmbookmarks kcmkonqhtml kcmkonq kcmperformance kfmclient kgetplugin khtmlsettingsplugin khtmltts kshellcmdplugin searchbarplugin uachangerplugin webarchiver kio6_bookmarks konqsidebar temporarysavedir kcontrol; do
+	%find_lang $i --with-html
+	cat $i.lang >>plugins.lang
+done
 
-%prep
-%autosetup -p1 -n konqueror-%{?git:%{gitbranchd}}%{!?git:%{version}}
-%cmake \
-	-DQT_MAJOR_VERSION=6 \
-	-DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON \
-	-G Ninja
-
-%build
-%ninja -C build
-
-%install
-%ninja_install -C build
-
-%find_lang akregator_konqplugin
-%find_lang autorefresh
-%find_lang babelfish
-%find_lang dirfilterplugin
-%find_lang fsview
-%find_lang imgalleryplugin
-%find_lang kcmbookmarks
-%find_lang kcmkonqhtml
-%find_lang kcmkonq
-%find_lang kcmperformance
-%find_lang kfmclient
-%find_lang kgetplugin
-%find_lang khtmlsettingsplugin
-%find_lang khtmltts
-%find_lang kshellcmdplugin
-%find_lang searchbarplugin
-%find_lang uachangerplugin
-%find_lang webarchiver
-%find_lang kio6_bookmarks
-%find_lang konqsidebar
-%find_lang temporarysavedir
-cat *.lang >plugins.lang
-
-%find_lang konqueror
-%find_lang libkonq
-%find_lang webenginepart
+%find_lang konqueror --with-html
+%find_lang libkonq --with-html
+%find_lang webenginepart --with-html
