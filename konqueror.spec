@@ -5,7 +5,7 @@
 
 Summary:	KDE file and web browser
 Name:		konqueror
-Version:	25.12.3
+Version:	26.04.0
 Release:	%{?git:0.%{git}.}1
 License:	GPLv2+
 Group:		Graphical desktop/KDE
@@ -143,6 +143,8 @@ This module contains plugins that interact with Konqueror.
 %{_datadir}/konqsidebartng
 %{_datadir}/qlogging-categories6/fsview.categories
 %{_datadir}/applications/org.kde.konqueror.desktop
+%{_datadir}/applications/kcm_speeddial.desktop
+%{_datadir}/applications/speeddial.desktop
 %{_datadir}/konqueror/webengine_dictionaries
 # = webarchive plugin =
 %{_bindir}/kcreatewebarchive
@@ -246,7 +248,7 @@ based on %{name}.
 
 %install -a
 rm -f plugins.lang konqueror.lang
-for i in akregator_konqplugin autorefresh babelfish dirfilterplugin fsview imgalleryplugin kcmbookmarks kcmkonqhtml kcmkonq kcmperformance kfmclient kgetplugin khtmlsettingsplugin khtmltts kshellcmdplugin searchbarplugin uachangerplugin webarchiver kio6_bookmarks konqsidebar temporarysavedir kcontrol; do
+for i in akregator_konqplugin autorefresh babelfish dirfilterplugin fsview imgalleryplugin kcmbookmarks kcmkonqhtml kcmkonq kcmperformance kfmclient kgetplugin khtmlsettingsplugin khtmltts kshellcmdplugin searchbarplugin uachangerplugin webarchiver kio6_bookmarks konqsidebar temporarysavedir kcontrol speeddial; do
 	%find_lang $i --with-html
 	cat $i.lang >>plugins.lang
 done
